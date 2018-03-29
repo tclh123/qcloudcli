@@ -74,21 +74,7 @@ class handleCmd(object):
               "know the module corresponding actions." % (self.red, self.end))
 
     def showQcloudConfigurePath(self):
-        configurePathName = ".qcloudcli"
-        sysHomePath = ''
-        if 'Windows' in platform.system():
-            sysHomePath = os.environ['HOMEPATH']
-        else:
-            sysHomePath = os.environ['HOME']
-            pass
-        qcloudConfigurePath = os.path.join(sysHomePath, configurePathName)
-        if os.path.isdir(qcloudConfigurePath):
-            return qcloudConfigurePath
-        if 'Windows' not in platform.system():
-            systemWideConfigurePath = '/etc/qcloudcli'
-            if os.path.isdir(systemWideConfigurePath):
-                return systemWideConfigurePath
-        return qcloudConfigurePath
+        return self.globalConfigure.showQcloudConfigurePath()
 
     def getAllmodules(self):
         site_packages_path = get_python_lib()

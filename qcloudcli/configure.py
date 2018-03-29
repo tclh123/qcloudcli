@@ -27,9 +27,24 @@ class QcloudConfig(object):
         self.home = ".qcloudcli"
         self.configure = "configure"
         self.credentials = "credentials"
-        self.qcloudConfigurePath = os.path.join(self.findConfigureFilePath(),
-                                                self.home)
         self.parser = handleParameter.handleParameter()
+
+    def showQcloudConfigurePath(self):
+        configurePathName = ".qcloudcli"
+        sysHomePath = ''
+        if 'Windows' in platform.system():
+            sysHomePath = os.environ['HOMEPATH']
+        else:
+            sysHomePath = os.environ['HOME']
+            pass
+        qcloudConfigurePath = os.path.join(sysHomePath, configurePathName)
+        if os.path.isdir(qcloudConfigurePath):
+            return qcloudConfigurePath
+        if 'Windows' not in platform.system():
+            systemWideConfigurePath = '/etc/qcloudcli'
+            if os.path.isdir(systemWideConfigurePath):
+                return systemWideConfigurePath
+        return qcloudConfigurePath
 
     def getConfig(self, profilename=None):
         if profilename is None:
@@ -63,10 +78,10 @@ class QcloudConfig(object):
                     j = j+1
 
     def getConfigFileName(self):
-        return os.path.join(self.qcloudConfigurePath, self.configure)
+        return os.path.join(self.showQcloudConfigurePath(), self.configure)
 
     def getCredsFileName(self):
-        return os.path.join(self.qcloudConfigurePath, self.credentials)
+        return os.path.join(self.showQcloudConfigurePath(), self.credentials)
 
     def findConfigureFilePath(self):
         homePath = ""
