@@ -82,6 +82,12 @@ class handleCmd(object):
             sysHomePath = os.environ['HOME']
             pass
         qcloudConfigurePath = os.path.join(sysHomePath, configurePathName)
+        if os.path.isdir(qcloudConfigurePath):
+            return qcloudConfigurePath
+        if 'Windows' not in platform.system():
+            systemWideConfigurePath = '/etc/qcloudcli'
+            if os.path.isdir(systemWideConfigurePath):
+                return systemWideConfigurePath
         return qcloudConfigurePath
 
     def getAllmodules(self):
